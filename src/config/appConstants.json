@@ -1,0 +1,24 @@
+{
+    "ENV": {
+        "DEVELOPMENT": "development",
+        "STAGING": "staging",
+        "PRODUCTION": "production"
+    },
+    "PRISMA_ERROR_CODES": {
+        "DUPLICATE_ENTRY": "P2002"
+    },
+    "ENV_KEYS": {
+        "TOKEN_SECRET": "TOKEN_SECRET",
+        "JWT_SECRET_KEY": "JWT_SECRET_KEY"
+    },
+    "DATABASE_CONFIG": "DATABASE_CONFIG",
+    "STATUS": {
+        "PENDING": "PENDING",
+        "IN_PROGRESS": "IN_PROGRESS",
+        "COMPLETED": "COMPLETED"
+    },
+    "RESPONSES": {
+        "SUCCESS": "SUCCESS",
+        "ERROR": "ERROR"
+    }
+}
