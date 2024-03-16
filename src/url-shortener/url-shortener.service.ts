@@ -8,6 +8,7 @@ import ShortUniqueId from 'short-unique-id';
 @Injectable()
 export class UrlShortenerService {
     constructor(private prisma: PrismaService){}
+    
     async shortUrlService( dto: UrlShortenerDto, user: User) {
         const { randomUUID } = new ShortUniqueId({ length: 8});
         const shortId: ShortUrl = await this.prisma.shortUrl.create({
@@ -18,6 +19,31 @@ export class UrlShortenerService {
             }
         })
 
-        return shortId
+        return { shortId: shortId.shortId }
+    }
+
+    async redirectUrlService(shortId: string, user: User) {
+        const rediectUrl = await this.prisma.shortUrl.findFirst({
+            where: {
+                shortId: shortId
+            },
+            select: {
+                id: true,
+                redirectUrl: true,
+                clickCount: true
+            }
+        })
+
+        await this.prisma.shortUrl.update({
+            where:{
+                id: rediectUrl.id,
+                shortId: shortId
+            },
+            data: {
+                clickCount: rediectUrl.clickCount + 1,
+            }
+        })
+
+        return { url: rediectUrl.redirectUrl}
     }
 }
