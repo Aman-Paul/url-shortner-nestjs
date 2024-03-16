@@ -20,6 +20,26 @@ model User {
 
   firstName String?
   lastName  String?
+  
+  isActive Boolean @default(true)
+
+  shortUrl ShortUrl[]
 
   @@map("users")
+}
+
+model ShortUrl {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  shortId String 
+  redirectUrl String
+  clickCount Int  @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@map("short_url")
+
 }
