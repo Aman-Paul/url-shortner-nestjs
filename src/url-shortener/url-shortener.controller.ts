@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Header, Headers, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { UrlShortenerService } from './url-shortener.service';
 import { UrlShortenerDto } from './dto';
 import { JwtGuard } from 'src/auth/guard';
@@ -17,8 +17,8 @@ export class UrlShortenerController {
     }
 
     @Get(":shortid")
-    async redirectToId(@Param('shortid') shortId: string, @GetUser() user: User, @Res() res: Response) {
-        const rediectUrl = await this.urlShortenerService.redirectUrlService(shortId, user);
+    async redirectToId(@Param('shortid') shortId: string, @GetUser() user: User, @Res() res: Response, @Headers("user-agent") deviceType: string)  {
+        const rediectUrl = await this.urlShortenerService.redirectUrlService(shortId, deviceType, user);
 
         if(!rediectUrl) {
             throw "no data found" 
@@ -26,5 +26,11 @@ export class UrlShortenerController {
 
 
         res.redirect(rediectUrl.url)
+    }
+
+    @UseGuards(JwtGuard)
+    @Get("analytics/:shortId")
+    async urlAnalyticsHandler(@Param("shortId") shortId: string){
+        return this.urlShortenerService.getUrlAnalytics(shortId);
     }
 }

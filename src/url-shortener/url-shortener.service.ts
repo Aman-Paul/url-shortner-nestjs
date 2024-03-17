@@ -24,7 +24,7 @@ export class UrlShortenerService {
         return { shortId: shortUrl }
     }
 
-    async redirectUrlService(shortId: string, user: User) {
+    async redirectUrlService(shortId: string, deviceType: string, user: User) {
         const rediectUrl = await this.prisma.shortUrl.findFirst({
             where: {
                 shortId: shortId
@@ -39,15 +39,24 @@ export class UrlShortenerService {
         if(!rediectUrl) {
             return false;
         }
-        await this.prisma.shortUrl.update({
-            where:{
+
+        const [updatedShortUrl, clickAnalytics] = await Promise.all([this.prisma.shortUrl.update({
+            where: {
                 id: rediectUrl.id,
                 shortId: shortId
             },
             data: {
                 clickCount: rediectUrl.clickCount + 1,
             }
-        })
+        }), this.prisma.clickAnalytics.create({
+            data: {
+                deviceType: deviceType,
+                shortUrlId: rediectUrl.id,
+            }
+        })]) 
+
+        console.log("Click DAta:::::::", updatedShortUrl, clickAnalytics)
+
 
         return { url: rediectUrl.redirectUrl }
     }
@@ -71,5 +80,10 @@ export class UrlShortenerService {
             });
           }),
         );
+      }
+
+
+      async getUrlAnalytics(shortId){
+
       }
 }

@@ -27,6 +27,21 @@ CREATE TABLE `short_url` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `click_analytics` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `isActive` BOOLEAN NOT NULL DEFAULT true,
+    `deviceType` VARCHAR(191) NOT NULL,
+    `shortUrlId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `short_url` ADD CONSTRAINT `short_url_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `click_analytics` ADD CONSTRAINT `click_analytics_shortUrlId_fkey` FOREIGN KEY (`shortUrlId`) REFERENCES `short_url`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
