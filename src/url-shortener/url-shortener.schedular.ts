@@ -10,6 +10,6 @@ export class UserScheduler {
 // @Cron('0 * * * * *') // runs every minutes
 @Cron('0 * * * *') // runs every hour
 async handleDeactivateInactiveUsers() {
-    await this.urlShortner.deactivateInactiveUsers();
+    await this.urlShortner.deleteExpiredUrls();
   }
 }

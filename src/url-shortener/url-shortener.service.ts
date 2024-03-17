@@ -53,7 +53,7 @@ export class UrlShortenerService {
     }
 
 
-    async deactivateInactiveUsers(): Promise<void> {
+    async deleteExpiredUrls(): Promise<void> {
         const twentyFourHoursAgo = new Date();
         twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 1);
     
