@@ -23,8 +23,6 @@ export class UrlShortenerController {
         if(!rediectUrl) {
             throw "no data found" 
         }
-
-
         res.redirect(rediectUrl.url)
     }
 

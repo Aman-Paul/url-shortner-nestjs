@@ -25,40 +25,40 @@ export class UrlShortenerService {
     }
 
     async redirectUrlService(shortId: string, deviceType: string, user: User) {
-        const rediectUrl = await this.prisma.shortUrl.findFirst({
-            where: {
-                shortId: shortId
-            },
-            select: {
-                id: true,
-                redirectUrl: true,
-                clickCount: true
-            }
-        })
+        try {
+            const rediectUrl = await this.prisma.shortUrl.findFirst({
+                where: {
+                    shortId: shortId
+                },
+                select: {
+                    id: true,
+                    redirectUrl: true,
+                    clickCount: true
+                }
+            })
 
-        if(!rediectUrl) {
-            return false;
+            if (!rediectUrl) {
+                return false;
+            }
+
+            await Promise.all([this.prisma.shortUrl.update({
+                where: {
+                    id: rediectUrl.id,
+                    shortId: shortId
+                },
+                data: {
+                    clickCount: rediectUrl.clickCount + 1,
+                }
+            }), this.prisma.clickAnalytics.create({
+                data: {
+                    deviceType: deviceType,
+                    shortUrlId: rediectUrl.id,
+                }
+            })])
+            return { url: rediectUrl.redirectUrl }
+        } catch (error) {
+            throw `Error in redirectUrlService:${error}`;
         }
-
-        const [updatedShortUrl, clickAnalytics] = await Promise.all([this.prisma.shortUrl.update({
-            where: {
-                id: rediectUrl.id,
-                shortId: shortId
-            },
-            data: {
-                clickCount: rediectUrl.clickCount + 1,
-            }
-        }), this.prisma.clickAnalytics.create({
-            data: {
-                deviceType: deviceType,
-                shortUrlId: rediectUrl.id,
-            }
-        })]) 
-
-        console.log("Click DAta:::::::", updatedShortUrl, clickAnalytics)
-
-
-        return { url: rediectUrl.redirectUrl }
     }
 
 
@@ -83,7 +83,46 @@ export class UrlShortenerService {
       }
 
 
-      async getUrlAnalytics(shortId){
+      async getUrlAnalytics(shortId: string){
+        try {
+            let urlAnalytics = await this.prisma.shortUrl.findFirst({
+                where: {
+                    shortId: shortId
+                },
+                select: {
+                    clickCount: true,
+                    clickAnalytics: {
+                        select: {
+                            id: true,
+                            createdAt: true,
+                            deviceType: true
+                        }
+                    }
+                }
+            })
 
+            urlAnalytics['mostActiveHours'] = this.getMostActiveHours(urlAnalytics.clickAnalytics);
+            
+            return urlAnalytics;
+        } catch (error) {
+            throw `Error in getUrlAnalytics: ${error}`;
+        }
       }
+
+
+    getMostActiveHours(clicks) {
+        const hourCounts: Object = {};
+    
+        // Count the clicks for each hour
+        clicks.forEach(click => {
+            const hour = new Date(click.createdAt).getHours();
+            hourCounts[hour] = (hourCounts[hour] || 0) + 1;
+        });
+    
+        // Find the hour(s) with the maximum clicks
+        const maxClicks = Math.max(...Object.values(hourCounts));
+        const mostActiveHours = Object.keys(hourCounts).filter(hour => hourCounts[hour] === maxClicks);
+    
+        return { mostActiveHours, hourlyClickCounts: hourCounts };
+    }
 }
