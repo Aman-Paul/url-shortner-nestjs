@@ -51,4 +51,25 @@ export class UrlShortenerService {
 
         return { url: rediectUrl.redirectUrl }
     }
+
+
+    async deactivateInactiveUsers(): Promise<void> {
+        const twentyFourHoursAgo = new Date();
+        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 1);
+    
+        const inactiveShortUrl = await this.prisma.shortUrl.findMany({
+          where: {
+            isActive: false,
+            createdAt: { lt: twentyFourHoursAgo },
+          },
+        });
+    
+        await Promise.all(
+            inactiveShortUrl.map(async (url) => {
+            await this.prisma.shortUrl.delete({
+              where: { id: url.id, shortId: url.shortId }
+            });
+          }),
+        );
+      }
 }
