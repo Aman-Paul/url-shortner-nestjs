@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ShortUrl, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
 import { UrlShortenerDto } from './dto';
 
 import ShortUniqueId from 'short-unique-id';
-import { ConfigService } from '@nestjs/config';
+import { URL_ACTIVE_TIME } from '../config/appConstants.json';
 
 @Injectable()
 export class UrlShortenerService {
@@ -64,7 +65,7 @@ export class UrlShortenerService {
 
     async deleteExpiredUrls(): Promise<void> {
         const twentyFourHoursAgo = new Date();
-        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 1);
+        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - URL_ACTIVE_TIME);
     
         const inactiveShortUrl = await this.prisma.shortUrl.findMany({
           where: {

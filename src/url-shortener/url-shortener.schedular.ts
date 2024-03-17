@@ -6,9 +6,9 @@ import { UrlShortenerService } from './url-shortener.service';
 export class UserScheduler {
   constructor(private readonly urlShortner: UrlShortenerService) {}
 
-// @Cron('0 0 * * *') // runs every day at midnight
-// @Cron('0 * * * * *') // runs every minutes
-@Cron('0 * * * *') // runs every hour
+  // @Cron('0 * * * * *') // runs every minutes
+  // @Cron('0 * * * *') // runs every hour
+@Cron('0 0 * * *') // runs every day at midnight
 async handleDeactivateInactiveUsers() {
     await this.urlShortner.deleteExpiredUrls();
   }

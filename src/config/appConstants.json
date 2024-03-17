@@ -20,5 +20,7 @@
     "RESPONSES": {
         "SUCCESS": "SUCCESS",
         "ERROR": "ERROR"
-    }
+    },
+    "URL_ACTIVE_TIME": 24
+
 }
