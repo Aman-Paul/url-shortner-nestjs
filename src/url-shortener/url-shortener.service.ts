@@ -4,10 +4,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UrlShortenerDto } from './dto';
 
 import ShortUniqueId from 'short-unique-id';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UrlShortenerService {
-    constructor(private prisma: PrismaService){}
+    constructor(private prisma: PrismaService, private config: ConfigService){}
     
     async shortUrlService( dto: UrlShortenerDto, user: User) {
         const { randomUUID } = new ShortUniqueId({ length: 8});
@@ -18,8 +19,9 @@ export class UrlShortenerService {
                 userId: user.id
             }
         })
+        const shortUrl = this.config.get("BASE_URL") + shortId.shortId;
 
-        return { shortId: shortId.shortId }
+        return { shortId: shortUrl }
     }
 
     async redirectUrlService(shortId: string, user: User) {
@@ -34,6 +36,9 @@ export class UrlShortenerService {
             }
         })
 
+        if(!rediectUrl) {
+            return false;
+        }
         await this.prisma.shortUrl.update({
             where:{
                 id: rediectUrl.id,
@@ -44,6 +49,6 @@ export class UrlShortenerService {
             }
         })
 
-        return { url: rediectUrl.redirectUrl}
+        return { url: rediectUrl.redirectUrl }
     }
 }

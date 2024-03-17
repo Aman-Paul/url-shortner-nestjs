@@ -20,6 +20,11 @@ export class UrlShortenerController {
     async redirectToId(@Param('shortid') shortId: string, @GetUser() user: User, @Res() res: Response) {
         const rediectUrl = await this.urlShortenerService.redirectUrlService(shortId, user);
 
+        if(!rediectUrl) {
+            throw "no data found" 
+        }
+
+
         res.redirect(rediectUrl.url)
     }
 }
