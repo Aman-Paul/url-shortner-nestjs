@@ -38,6 +38,13 @@ npx prisma db push
 npm run start:dev
 ```
 
+## Test
+```bash
+# e2e tests
+npm run test:e2e
+
+```
+
 ## Important API endpoints
 1. User Signup API
 ```bash
@@ -129,7 +136,6 @@ Response: {
 }
 
 ```
-
 ## Analytics Approach
 Our analytics approach focuses on tracking user interactions, particularly clicks, to gain insights into user behavior. Below is a breakdown of the analytics response:
 - **Click Count :** The total number of clicks recorded within the specified timeframe.
@@ -146,18 +152,6 @@ To ensure scalability and accommodate increasing user demand, we employ the foll
 - **Asynchronous Processing :** For resource-intensive tasks or operations that can be performed asynchronously, we leverage asynchronous processing techniques. By offloading these tasks to background processes or worker queues, we free up resources on the main application servers, improving overall system responsiveness.
 - **Database Sharding :** As the volume of data grows, we employ database sharding techniques to horizontally partition our database across multiple servers. This allows us to distribute the database workload and queries more evenly, preventing any single database server from becoming a bottleneck.
 - **Promisify Asynchronous functions :** Promisifying asynchronous functions throughout our codebase ensures a consistent and standardized approach to handling asynchronous operations. This improves code readability, simplifies error handling, and enhances composability, making our codebase more scalable and maintainable as the system grows.
-<!-- ## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-``` -->
 
 ## Stay in touch
 
