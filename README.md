@@ -39,6 +39,7 @@ npm run start:dev
 ```
 
 ## Important API endpoints
+1. User Signup API
 ```bash
 # User Signup
 Endpoint: /auth/signup
@@ -51,7 +52,10 @@ Body: {
 Response: {
     "access_token": "Access Token"
 }
+```
 
+2. User Signin API
+```bash
 # User Signin
 Endpoint: /auth/signin
 Body: {
@@ -62,7 +66,10 @@ Body: {
 Response: {
     "access_token": "Access Token"
 }
+```
 
+3. Get Short Url API
+```bash
 # Get Short Url
 Endpoint: /short-url
 Headers: {
@@ -74,7 +81,10 @@ Body: {
 Response: {
     "shortUrl": "http://localhost:3333/EwMlY5AL"
 }
+```
 
+4. Get Short Url Analytics API
+```bash
 # Get Analytics of a Short Url
 Endpoint: /analytics/:shortId
 Headers: {
