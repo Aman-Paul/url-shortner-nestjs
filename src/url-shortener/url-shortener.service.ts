@@ -101,8 +101,10 @@ export class UrlShortenerService {
                     }
                 }
             })
-
-            urlAnalytics['mostActiveHours'] = this.getMostActiveHours(urlAnalytics.clickAnalytics);
+            
+            const { mostActiveHours, hourlyClickCounts }= this.getMostActiveHours(urlAnalytics.clickAnalytics);
+            urlAnalytics['mostActiveHours'] = mostActiveHours;
+            urlAnalytics['hourlyClickCounts'] = hourlyClickCounts;
             
             return urlAnalytics;
         } catch (error) {
