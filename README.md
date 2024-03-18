@@ -5,22 +5,7 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<h1 align="center">Url Shortner</h1>
 
 ## Description
 
@@ -32,20 +17,117 @@
 $ npm install
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+## Push db schemas to the connected db
+```bash 
+# Push migrations to db 
+$ npx prisma db push
 ```
 
-## Test
+## Running the app
+```bash
+# watch mode
+$ npm run start:dev
+```
+
+## Important API endpoints
+```bash
+# User Signup
+Endpoint: /auth/signup
+Body: {
+    "firstName": "Your First name",
+    "lastName": "Your Last name",
+    "email": "Your Email",
+    "password": "Your Passowrd"
+    }
+Response: {
+    "access_token": "Access Token"
+}
+
+# User Signin
+Endpoint: /auth/signin
+Body: {
+    "email": "Your Email",
+    "password": "Your Password"
+
+}
+Response: {
+    "access_token": "Access Token"
+}
+
+# Get Short Url
+Endpoint: /short-url
+Headers: {
+  "Authorization": "Bearer <Your Access Token>"
+}
+Body: {
+    "url": "<Main Url>"
+}
+Response: {
+    "shortUrl": "http://localhost:3333/EwMlY5AL"
+}
+
+# Get Analytics of a Short Url
+Endpoint: /analytics/:shortId
+Headers: {
+  "Authorization": "Bearer <Your Access Token>"
+}
+Response: {
+    "clickCount": 5,
+    "clickAnalytics": [
+        {
+            "id": 1,
+            "createdAt": "2024-03-17T18:49:17.621Z",
+            "deviceType": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        },
+        {
+            "id": 2,
+            "createdAt": "2024-03-17T18:49:25.954Z",
+            "deviceType": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        },
+        {
+            "id": 3,
+            "createdAt": "2024-03-18T06:28:42.819Z",
+            "deviceType": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        },
+        {
+            "id": 4,
+            "createdAt": "2024-03-18T06:28:51.964Z",
+            "deviceType": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        },
+        {
+            "id": 5,
+            "createdAt": "2024-03-18T06:29:56.106Z",
+            "deviceType": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        }
+    ],
+    "mostActiveHours": [
+        "11"
+    ],
+    "hourlyClickCounts": {
+        "0": 2,
+        "11": 3
+    }
+}
+
+```
+
+## Analytics Approach
+Our analytics approach focuses on tracking user interactions, particularly clicks, to gain insights into user behavior. Below is a breakdown of the analytics response:
+- **Click Count :** The total number of clicks recorded within the specified timeframe.
+- **Click Analytics :** Detailed information about each click, including its unique identifier, timestamp of creation, and the device type used for the click. This data helps in understanding the distribution of clicks over time and across different devices.
+- **Most Active Hours:** Identification of the hours during which the platform experiences the highest activity based on the recorded clicks. This insight is valuable for optimizing resource allocation and scheduling maintenance tasks during periods of low activity.
+- **Hourly Click Counts :** A breakdown of the click count per hour. This information allows us to identify peak hours of activity and allocate resources accordingly. In the provided example, there were 2 clicks recorded at 12:00 AM (hour 0) and 3 clicks recorded at 11:00 AM (hour 11).
+
+
+## Scalability Solutions
+To ensure scalability and accommodate increasing user demand, we employ the following strategies:
+- **Horizontal Scaling :** Our system is designed to scale horizontally, allowing us to add more servers or instances to handle increased traffic efficiently. This approach ensures that our platform remains responsive even during periods of high demand.
+- **Load Balancing :** We can utilize load balancers to distribute incoming traffic evenly across multiple servers or instances. This will help prevent any single server from becoming overwhelmed, improving overall system performance and reliability.
+- **Caching :** We implement caching mechanisms to store frequently accessed data, such as static content or database query results. By caching data at various layers of our infrastructure, we reduce the need for repeated computations or database accesses, thereby improving response times and reducing server load. We can also use **Redis DB** like services for the caching purposes.
+- **Asynchronous Processing :** For resource-intensive tasks or operations that can be performed asynchronously, we leverage asynchronous processing techniques. By offloading these tasks to background processes or worker queues, we free up resources on the main application servers, improving overall system responsiveness.
+- **Database Sharding :** As the volume of data grows, we employ database sharding techniques to horizontally partition our database across multiple servers. This allows us to distribute the database workload and queries more evenly, preventing any single database server from becoming a bottleneck.
+- **Promisify Asynchronous functions :** Promisifying asynchronous functions throughout our codebase ensures a consistent and standardized approach to handling asynchronous operations. This improves code readability, simplifies error handling, and enhances composability, making our codebase more scalable and maintainable as the system grows.
+<!-- ## Test
 
 ```bash
 # unit tests
@@ -56,18 +138,13 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+``` -->
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Aman Paul](https://aman-paul.netlify.com/)
+- Github - [https://github.com/Aman-Paul](https://github.com/Aman-Paul)
+- LinkedIn - [My LinkedIn Profile](https://www.linkedin.com/in/aman-paul-js-stack/)
 
 ## License
-
 Nest is [MIT licensed](LICENSE).
