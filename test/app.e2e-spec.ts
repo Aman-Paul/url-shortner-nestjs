@@ -115,7 +115,6 @@ describe('App e2e', () => {
   describe('Short Url', () => {
 
     describe('Get short url', () => {
-      
       const dto: UrlShortenerDto = {
         url: "https://www.google.com/"
       }
@@ -135,7 +134,6 @@ describe('App e2e', () => {
         .post('/short-url')
         .withJson(dto)
         .expectStatus(401)
-        .inspect()
         
       })
       it('should get the short url', async () => {
@@ -147,7 +145,26 @@ describe('App e2e', () => {
         })
         .withJson(dto)
         .expectStatus(201)
-        
+        .stores('shortId', 'shortId')
+      })
+    })
+
+    describe('Get short url Analytics', () => {
+      it('should throw without access token', () => {
+        return pactum
+        .spec()
+        .get('/analytics/$S{shortId}')
+        .expectStatus(401)
+      });
+
+      it('should get the anylytics', () => {
+        return pactum
+        .spec()
+        .get('/analytics/$S{shortId}')
+        .withHeaders({
+          Authorization: 'Bearer $S{userAt}'
+        })
+        .expectStatus(200)
       })
     })
   })
