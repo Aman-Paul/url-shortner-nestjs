@@ -13,17 +13,17 @@ This repository hosts a URL shortener service developed using NestJS, a progress
 ## Installation
 1. Clone the repository to your local machine:
 ```bash
-$ git clone https://github.com/Aman-Paul/url-shortner-nestjs.git
+git clone https://github.com/Aman-Paul/url-shortner-nestjs.git
 ```
 
 2. Navigate to the project directory:
 ```bash
-$ cd url-shortner-nestjs
+cd url-shortner-nestjs
 ```
 
 3. Install dependencies:
 ```bash
-$ npm install
+npm install
 ```
 
 ## Push db schemas to the connected db
