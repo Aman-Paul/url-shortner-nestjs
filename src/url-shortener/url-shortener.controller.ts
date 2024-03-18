@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Header, Headers, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Header, Headers, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { UrlShortenerService } from './url-shortener.service';
 import { UrlShortenerDto } from './dto';
 import { JwtGuard } from '../auth/guard';
@@ -21,7 +21,7 @@ export class UrlShortenerController {
         const rediectUrl = await this.urlShortenerService.redirectUrlService(shortId, deviceType, user);
 
         if(!rediectUrl) {
-            throw "no data found" 
+            throw new BadRequestException("No data found") 
         }
         res.redirect(rediectUrl.url)
     }
