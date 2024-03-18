@@ -1,25 +1,32 @@
-import { Test } from '@nestjs/testing';
-import { AppModule } from "../src/app.module";
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { Test } from '@nestjs/testing'
+import { AppModule } from '../src/app.module'
+import { INestApplication, ValidationPipe } from '@nestjs/common'
+import { GlobalExceptionFilter } from '../src/exceptions/global-exception-filter';
+import { PrismaService } from '../src/prisma/prisma.service';
 
 describe('App e2e', () => {
   let app: INestApplication;
+  let prisma: PrismaService;
   beforeAll(async () => {
-    const moduleRef = 
-      await Test.createTestingModule({
-        imports: [AppModule],
-      }).compile();
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
 
     app = moduleRef.createNestApplication();
     app.useGlobalPipes( new ValidationPipe({
-      whitelist: true
+      whitelist: true,
+      stopAtFirstError: true
     }));
+    app.useGlobalFilters(new GlobalExceptionFilter());
 
     await app.init();
-  });
 
-  afterAll(() => {
-    app.close();
+    prisma = app.get(PrismaService);
+    await prisma.cleanDb();
   })
-  it.todo('should pass test');
+
+  afterAll(() => { 
+    app.close()
+  });
+  it.todo('should pass')
 })

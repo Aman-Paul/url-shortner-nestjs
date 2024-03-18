@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Header, Headers, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { UrlShortenerService } from './url-shortener.service';
 import { UrlShortenerDto } from './dto';
-import { JwtGuard } from 'src/auth/guard';
-import { GetUser } from 'src/auth/decorator';
+import { JwtGuard } from '../auth/guard';
+import { GetUser } from '../auth/decorator';
 import { User } from '@prisma/client';
 import { Response } from 'express';
 

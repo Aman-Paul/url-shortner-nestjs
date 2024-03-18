@@ -13,5 +13,20 @@ services:
       - ./data:/var/lib/mysql
     networks:
       - urlshortner
+  test-db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - urlshortner
 networks:
   urlshortner:
+
+
+  #  "pretest:e2e": "npm run db:test:restart",

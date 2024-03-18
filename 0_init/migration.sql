@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE `users` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `short_url` (
+CREATE TABLE IF NOT EXISTS `short_url` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `short_url` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `click_analytics` (
+CREATE TABLE IF NOT EXISTS `click_analytics` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -44,4 +44,3 @@ ALTER TABLE `short_url` ADD CONSTRAINT `short_url_userId_fkey` FOREIGN KEY (`use
 
 -- AddForeignKey
 ALTER TABLE `click_analytics` ADD CONSTRAINT `click_analytics_shortUrlId_fkey` FOREIGN KEY (`shortUrlId`) REFERENCES `short_url`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
