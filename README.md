@@ -26,10 +26,10 @@ cd url-shortner-nestjs
 npm install
 ```
 
-## Push db schemas to the connected db
+## Migrate schemas to the connected db
 ```bash 
 # Push migrations to db 
-npx prisma db push
+npx prisma migrate deploy
 ```
 
 ## Running the app
