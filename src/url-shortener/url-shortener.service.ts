@@ -22,7 +22,7 @@ export class UrlShortenerService {
         })
         const shortUrl = this.config.get("BASE_URL") + shortId.shortId;
 
-        return { shortId: shortUrl }
+        return { shortUrl: shortUrl }
     }
 
     async redirectUrlService(shortId: string, deviceType: string, user: User) {
