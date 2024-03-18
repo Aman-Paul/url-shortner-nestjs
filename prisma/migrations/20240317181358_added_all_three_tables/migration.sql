@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `updatedAt` DATETIME(3) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `hash` VARCHAR(191) NOT NULL,
-    `firstName` VARCHAR(191) NULL,
+    `firstName` VARCHAR(191) NOT NULL,
     `lastName` VARCHAR(191) NULL,
     `isActive` BOOLEAN NOT NULL DEFAULT true,
 
