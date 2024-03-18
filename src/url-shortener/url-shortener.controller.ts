@@ -1,10 +1,11 @@
-import { BadRequestException, Body, Controller, Get, Header, Headers, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Post, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UrlShortenerService } from './url-shortener.service';
 import { UrlShortenerDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
 import { User } from '@prisma/client';
 import { Response } from 'express';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller()
 export class UrlShortenerController {
@@ -27,6 +28,8 @@ export class UrlShortenerController {
     }
 
     @UseGuards(JwtGuard)
+    @UseInterceptors(CacheInterceptor)
+    @CacheTTL(10)
     @Get("analytics/:shortId")
     async urlAnalyticsHandler(@Param("shortId") shortId: string){
         return this.urlShortenerService.getUrlAnalytics(shortId);
