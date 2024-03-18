@@ -134,8 +134,52 @@ Response: {
         "11": 3
     }
 }
-
 ```
+
+5. Get My Details API
+```bash
+    # Get My Details
+    Endpoint: /users/me
+    Headers: {
+    "Authorization": "Bearer <Your Access Token>"
+    }
+    Response: {
+    "id": 1,
+    "email": "USER'S EMAIL",
+    "firstName": "User's first name",
+    "lastName": "User's Last name",
+    "shortUrl": [
+            {
+            "id": 1,
+            "shortId": "4PtFhoDu",
+            "redirectUrl": "https://aman-paul.netlify.app/"
+            }
+        ]
+    }
+```
+
+6. Get User Details by userId
+```bash
+    # Get User Details by userId
+    Endpoint: users/:userId
+    Headers: {
+    "Authorization": "Bearer <Your Access Token>"
+    }
+    Response: {
+        "id": 1,
+        "email": "USER'S EMAIL",
+        "firstName": "User's first name",
+        "lastName": "User's Last name",
+        "shortUrl": [
+            {
+                "id": 1,
+                "shortId": "4PtFhoDu",
+                "redirectUrl": "https://aman-paul.netlify.app/"
+                }
+            ]
+    }
+```
+
 ## Analytics Approach
 Our analytics approach focuses on tracking user interactions, particularly clicks, to gain insights into user behavior. Below is a breakdown of the analytics response:
 - **Click Count :** The total number of clicks recorded within the specified timeframe.
