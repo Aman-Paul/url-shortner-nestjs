@@ -5,14 +5,23 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-<h1 align="center">Url Shortner</h1>
+<h1 align="center">NestJS URL Shortener Project</h1>
 
 ## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This repository hosts a URL shortener service developed using NestJS, a progressive Node.js framework. The primary purpose of this project is to shorten long URLs into concise, manageable links. Additionally, it offers analytical insights into the usage of these shortened URLs.
 
 ## Installation
+1. Clone the repository to your local machine:
+```bash
+$ git clone https://github.com/Aman-Paul/url-shortner-nestjs.git
+```
 
+2. Navigate to the project directory:
+```bash
+$ cd url-shortner-nestjs
+```
+
+3. Install dependencies:
 ```bash
 $ npm install
 ```
