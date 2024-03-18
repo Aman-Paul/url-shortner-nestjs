@@ -50,8 +50,6 @@ import {
             success: false,
             data: {},
         });
-
-        console.error(exception.stack);
     }
 }
   
