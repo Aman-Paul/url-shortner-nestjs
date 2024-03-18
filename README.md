@@ -29,13 +29,13 @@ npm install
 ## Push db schemas to the connected db
 ```bash 
 # Push migrations to db 
-$ npx prisma db push
+npx prisma db push
 ```
 
 ## Running the app
 ```bash
 # watch mode
-$ npm run start:dev
+npm run start:dev
 ```
 
 ## Important API endpoints
